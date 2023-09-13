@@ -1,12 +1,12 @@
-resource "aws_security_group" "docdb" {
-  name        = "${var.env}-docdb-security-group"
-  description = "${var.env}-docdb-security-group"
+resource "aws_security_group" "MAIN" {
+  name        = "${var.env}-alb-$(var.subnets_name)-security-group"
+  description = "${var.env}-alb-$(var.subnets_name)-security-group"
   vpc_id      = var.vpc_id
 
   ingress {
-    description      = "MongoDB"
-    from_port        = 27017
-    to_port          = 27017
+    description      = "HTTP"
+    from_port        = 80
+    to_port          = 80
     protocol         = "tcp"
     cidr_blocks      = var.allow_cidr
 
@@ -22,7 +22,7 @@ resource "aws_security_group" "docdb" {
 
   tags = merge(
     local.common_tags,
-    { Name = "${var.env}-docdb-security-group" }
+    { Name = "${var.env}-alb-$(var.subnets_name)-security-group" }
   )
 }
 
